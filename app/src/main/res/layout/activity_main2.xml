@@ -8,14 +8,28 @@
     tools:context=".MainActivity2">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="안녕하세요"
+        android:text="Hello Android!"
         android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.5"/>
+
+    <Button
+        android:id="@+id/button_change_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Text"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintEnd_toStartOf="@id/button_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"/>
 
     <Button
         android:id="@+id/button_back"
@@ -23,8 +37,8 @@
         android:layout_height="wrap_content"
         android:text="Back"
         app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_change_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

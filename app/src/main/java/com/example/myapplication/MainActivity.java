@@ -43,15 +43,18 @@ public class MainActivity extends AppCompatActivity {
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                startActivity(intent);
+                navigateToNextActivity();
             }
         });
     }
 
     private void changeBackgroundColor() {
-        Random random = new Random();
-        int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        int color = ColorUtil.getRandomColor();
         mainLayout.setBackgroundColor(color);
+    }
+
+    private void navigateToNextActivity() {
+        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+        startActivity(intent);
     }
 }
