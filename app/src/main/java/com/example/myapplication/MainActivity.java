@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String colorText = String.format("#%06X", (0xFFFFFF & color));
                 colorView.setText(colorText);
+                colorView.setTextColor(color);
             }
         });
 
