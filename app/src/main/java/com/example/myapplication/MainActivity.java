@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,25 +18,34 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private View mainLayout;
+    private TextView colorView;
+    private TextView textView;
+    private Button buttonChangeColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
-        mainLayout = findViewById(R.id.main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        mainLayout = findViewById(R.id.main);
+        colorView = findViewById(R.id.colorView);
+        textView = findViewById(R.id.textView);
+        buttonChangeColor = findViewById(R.id.button_change_color);
+
         Button buttonChangeColor = findViewById(R.id.button_change_color);
         buttonChangeColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeBackgroundColor();
+                int color = changeBackgroundColor();
+
+                String colorText = String.format("#%06X", (0xFFFFFF & color));
+                colorView.setText(colorText);
             }
         });
 
@@ -48,9 +58,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void changeBackgroundColor() {
+    private int changeBackgroundColor() {
         int color = ColorUtil.getRandomColor();
         mainLayout.setBackgroundColor(color);
+
+        return color;
     }
 
     private void navigateToNextActivity() {
