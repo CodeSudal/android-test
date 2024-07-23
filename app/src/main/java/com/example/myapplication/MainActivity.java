@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +19,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private View mainLayout;
+    private FrameLayout colorBox;
     private TextView colorView;
     private TextView textView;
     private Button buttonChangeColor;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mainLayout = findViewById(R.id.main);
+        colorBox = findViewById(R.id.colorBox);
         colorView = findViewById(R.id.colorView);
         textView = findViewById(R.id.textView);
         buttonChangeColor = findViewById(R.id.button_change_color);
