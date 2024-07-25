@@ -26,6 +26,21 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        exclude 'plugin.xml'
+        exclude 'osmosis-plugins.conf'
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.md'
+    }
+}
+
+configurations {
+    all {
+        exclude group: 'javax.activation', module: 'activation'
+    }
 }
 
 dependencies {
@@ -37,4 +52,6 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+
+    implementation 'com.github.mapsforge:mapsforge:0.21.0'
 }
