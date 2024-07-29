@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<render>
+    <!-- 도로 스타일 -->
+    <rule>
+        <condition>
+            <tag name="highway" value="primary"/>
+        </condition>
+        <symbolizer>
+            <line color="#FF0000" width="2"/>
+        </symbolizer>
+    </rule>
+
+    <!-- 건물 스타일 -->
+    <rule>
+        <condition>
+            <tag name="building" value="yes"/>
+        </condition>
+        <symbolizer>
+            <polygon color="#CCCCCC"/>
+        </symbolizer>
+    </rule>
+
+    <!-- 숲 스타일 -->
+    <rule>
+        <condition>
+            <tag name="landuse" value="forest"/>
+        </condition>
+        <symbolizer>
+            <polygon color="#228B22"/>
+        </symbolizer>
+    </rule>
+</render>

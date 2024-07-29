@@ -2,6 +2,10 @@ package com.example.myapplication;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,13 +14,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import org.mapsforge.core.model.LatLong;
-import org.mapsforge.core.model.Tile;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.util.AndroidUtil;
 import org.mapsforge.map.android.view.MapView;
 import org.mapsforge.map.layer.cache.TileCache;
 import org.mapsforge.map.layer.renderer.TileRendererLayer;
-import org.mapsforge.map.model.Model;
 import org.mapsforge.map.reader.MapFile;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
 
@@ -28,6 +30,9 @@ import java.io.InputStream;
 public class MainActivity extends AppCompatActivity {
 
     private MapView mapView;
+    private ScaleGestureDetector scaleGestureDetector;
+    private float initialRotation = 0;
+    private float rotationDegrees = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,48 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        // 스케일 제스처 감지기 초기화
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            @Override
+            public boolean onScale(ScaleGestureDetector detector) {
+                float scaleFactor = detector.getScaleFactor();
+                byte currentZoomLevel = mapView.getModel().mapViewPosition.getZoomLevel();
+                byte newZoomLevel = (byte) Math.max(0, Math.min(22, currentZoomLevel + (scaleFactor > 1 ? 1 : -1)));
+                mapView.getModel().mapViewPosition.setZoomLevel(newZoomLevel);
+                return true;
+            }
+        });
+
+        // 지도 회전을 위한 터치 리스너 설정
+        mapView.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getPointerCount() == 2) {
+                    switch (event.getActionMasked()) {
+                        case MotionEvent.ACTION_POINTER_DOWN:
+                            initialRotation = getRotation(event);
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            float currentRotation = getRotation(event);
+                            rotationDegrees += currentRotation - initialRotation;
+                            mapView.setRotation(rotationDegrees);
+                            initialRotation = currentRotation;
+                            break;
+                    }
+                    return true;
+                } else {
+                    scaleGestureDetector.onTouchEvent(event);
+                }
+                return false;
+            }
+
+            private float getRotation(MotionEvent event) {
+                double deltaX = (event.getX(0) - event.getX(1));
+                double deltaY = (event.getY(0) - event.getY(1));
+                return (float) Math.toDegrees(Math.atan2(deltaY, deltaX));
+            }
         });
     }
 
